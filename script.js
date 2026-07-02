@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load theme from localStorage or system preference
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+
     if (savedTheme) {
         htmlElement.setAttribute('data-theme', savedTheme);
     } else {
@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     themeToggleBtn.addEventListener('click', () => {
         const currentTheme = htmlElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
+
         htmlElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
-        
+
         // Minor micro-animation scale effect on button
         themeToggleBtn.style.transform = 'scale(0.9)';
         setTimeout(() => {
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const typingDelay = 100;
     const erasingDelay = 50;
     const newWordDelay = 2000;
-    
+
     let wordIndex = 0;
     let charIndex = 0;
 
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // SCROLL REVEAL & SKILLS PROGRESS ANIMATION
     // ==========================================================================
     const revealElements = document.querySelectorAll('.scroll-reveal');
-    
+
     const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -159,11 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             projectCards.forEach(card => {
                 const category = card.getAttribute('data-category');
-                
+
                 // Add minor exit scaling animation
                 card.style.transform = 'scale(0.9)';
                 card.style.opacity = '0';
-                
+
                 setTimeout(() => {
                     if (filterValue === 'all' || category === filterValue) {
                         card.classList.remove('hide');
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailInput = document.getElementById('form-email');
     const subjectInput = document.getElementById('form-subject');
     const messageInput = document.getElementById('form-message');
-    
+
     const toast = document.getElementById('toast');
     const toastCloseBtn = document.getElementById('toast-close');
     let toastTimeout;
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkField(input, errorElementId, validationFn, defaultMsg) {
         const group = input.closest('.form-group');
         const errorSpan = document.getElementById(errorElementId);
-        
+
         let isValid = false;
         if (validationFn) {
             isValid = validationFn(input.value.trim());
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showToast() {
         clearTimeout(toastTimeout);
         toast.classList.add('show');
-        
+
         // Auto hide after 5 seconds
         toastTimeout = setTimeout(() => {
             hideToast();
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Form Submit Handler
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        
+
         // Check all fields
         const isNameValid = checkField(nameInput, 'name-error');
         const isEmailValid = checkField(emailInput, 'email-error', (val) => validateEmail(val));
@@ -259,14 +259,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Visual success indicator
             const submitBtn = form.querySelector('.btn-submit');
             const originalBtnHtml = submitBtn.innerHTML;
-            
+
             submitBtn.innerHTML = 'Sending... <i class="fa-solid fa-circle-notch fa-spin"></i>';
             submitBtn.disabled = true;
 
             // Simulate server network latency
             setTimeout(() => {
                 showToast();
-                
+
                 // Reset inputs and classes
                 form.reset();
                 const formGroups = form.querySelectorAll('.form-group');
@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     g.classList.remove('success');
                     g.classList.remove('error');
                 });
-                
+
                 submitBtn.innerHTML = originalBtnHtml;
                 submitBtn.disabled = false;
             }, 1200);
