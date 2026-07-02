@@ -18,51 +18,60 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Toggle click handler
-    themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = htmlElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-        htmlElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
 
-        // Minor micro-animation scale effect on button
-        themeToggleBtn.style.transform = 'scale(0.9)';
-        setTimeout(() => {
-            themeToggleBtn.style.transform = '';
-        }, 150);
-    });
+            // Minor micro-animation scale effect on button
+            themeToggleBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                themeToggleBtn.style.transform = '';
+            }, 150);
+        });
+    }
 
     // Shrinking Navbar on Scroll
     const navbar = document.getElementById('main-nav');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
 
     // Active Navigation Link on Scroll
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    window.addEventListener('scroll', () => {
-        let currentSection = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (window.scrollY >= (sectionTop - sectionHeight / 3)) {
-                currentSection = section.getAttribute('id');
-            }
-        });
+    if (sections.length && navLinks.length) {
+        window.addEventListener('scroll', () => {
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - sectionHeight / 3)) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
 
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').substring(1) === currentSection) {
-                link.classList.add('active');
-            }
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    link.classList.remove('active');
+                    if (href.substring(1) === currentSection) {
+                        link.classList.add('active');
+                    }
+                }
+            });
         });
-    });
+    }
 
     // ==========================================================================
     // MOBILE NAVIGATION
@@ -70,19 +79,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileToggleBtn = document.getElementById('mobile-toggle');
     const navLinksMenu = document.getElementById('nav-links');
 
-    mobileToggleBtn.addEventListener('click', () => {
-        navLinksMenu.classList.toggle('mobile-open');
-        const isMenuOpen = navLinksMenu.classList.contains('mobile-open');
-        mobileToggleBtn.innerHTML = isMenuOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
-    });
-
-    // Close menu when clicking nav links
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinksMenu.classList.remove('mobile-open');
-            mobileToggleBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    if (mobileToggleBtn && navLinksMenu) {
+        mobileToggleBtn.addEventListener('click', () => {
+            navLinksMenu.classList.toggle('mobile-open');
+            const isMenuOpen = navLinksMenu.classList.contains('mobile-open');
+            mobileToggleBtn.innerHTML = isMenuOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
         });
-    });
+
+        // Close menu when clicking nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinksMenu.classList.remove('mobile-open');
+                mobileToggleBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+            });
+        });
+    }
 
     // ==========================================================================
     // DYNAMIC TYPING SIMULATION
@@ -97,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let charIndex = 0;
 
     function type() {
+        if (!typedTextSpan) return;
         if (charIndex < words[wordIndex].length) {
             typedTextSpan.textContent += words[wordIndex].charAt(charIndex);
             charIndex++;
@@ -107,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function erase() {
+        if (!typedTextSpan) return;
         if (charIndex > 0) {
             typedTextSpan.textContent = words[wordIndex].substring(0, charIndex - 1);
             charIndex--;
@@ -119,29 +132,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Start Typing Animation
-    if (words.length) setTimeout(type, newWordDelay);
+    if (typedTextSpan && words.length) {
+        setTimeout(type, newWordDelay);
+    }
 
     // ==========================================================================
     // SCROLL REVEAL & SKILLS PROGRESS ANIMATION
     // ==========================================================================
     const revealElements = document.querySelectorAll('.scroll-reveal');
 
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('reveal-visible');
-                // Optional: Unobserve if you only want the animation to run once
-                observer.unobserve(entry.target);
-            }
+    if (revealElements.length && 'IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-visible');
+                    // Unobserve if you only want the animation to run once
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
         });
-    }, {
-        threshold: 0.15,
-        rootMargin: '0px 0px -50px 0px'
-    });
 
-    revealElements.forEach(element => {
-        revealObserver.observe(element);
-    });
+        revealElements.forEach(element => {
+            revealObserver.observe(element);
+        });
+    }
 
     // ==========================================================================
     // PROJECTS CATEGORY FILTER
@@ -149,35 +166,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
 
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Update active state on button
-            filterButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+    if (filterButtons.length && projectCards.length) {
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state on button
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
 
-            const filterValue = btn.getAttribute('data-filter');
+                const filterValue = btn.getAttribute('data-filter');
 
-            projectCards.forEach(card => {
-                const category = card.getAttribute('data-category');
+                projectCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
 
-                // Add minor exit scaling animation
-                card.style.transform = 'scale(0.9)';
-                card.style.opacity = '0';
+                    // Add minor exit scaling animation
+                    card.style.transform = 'scale(0.9)';
+                    card.style.opacity = '0';
 
-                setTimeout(() => {
-                    if (filterValue === 'all' || category === filterValue) {
-                        card.classList.remove('hide');
-                        setTimeout(() => {
-                            card.style.transform = 'scale(1)';
-                            card.style.opacity = '1';
-                        }, 50);
-                    } else {
-                        card.classList.add('hide');
-                    }
-                }, 200);
+                    setTimeout(() => {
+                        if (filterValue === 'all' || category === filterValue) {
+                            card.classList.remove('hide');
+                            setTimeout(() => {
+                                card.style.transform = 'scale(1)';
+                                card.style.opacity = '1';
+                            }, 50);
+                        } else {
+                            card.classList.add('hide');
+                        }
+                    }, 200);
+                });
             });
         });
-    });
+    }
 
     // ==========================================================================
     // CONTACT FORM INTERACTIVE VALIDATION
@@ -199,8 +218,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkField(input, errorElementId, validationFn, defaultMsg) {
+        if (!input) return false;
         const group = input.closest('.form-group');
-        const errorSpan = document.getElementById(errorElementId);
+        if (!group) return false;
 
         let isValid = false;
         if (validationFn) {
@@ -221,15 +241,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Live validation feedback on typing / blurring
-    nameInput.addEventListener('input', () => checkField(nameInput, 'name-error'));
-    subjectInput.addEventListener('input', () => checkField(subjectInput, 'subject-error'));
-    messageInput.addEventListener('input', () => checkField(messageInput, 'message-error'));
-    emailInput.addEventListener('input', () => {
-        checkField(emailInput, 'email-error', (val) => validateEmail(val));
-    });
+    if (nameInput) {
+        nameInput.addEventListener('input', () => checkField(nameInput, 'name-error'));
+    }
+    if (subjectInput) {
+        subjectInput.addEventListener('input', () => checkField(subjectInput, 'subject-error'));
+    }
+    if (messageInput) {
+        messageInput.addEventListener('input', () => checkField(messageInput, 'message-error'));
+    }
+    if (emailInput) {
+        emailInput.addEventListener('input', () => {
+            checkField(emailInput, 'email-error', (val) => validateEmail(val));
+        });
+    }
 
     // Toast Control
     function showToast() {
+        if (!toast) return;
         clearTimeout(toastTimeout);
         toast.classList.add('show');
 
@@ -240,44 +269,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function hideToast() {
-        toast.classList.remove('show');
+        if (toast) {
+            toast.classList.remove('show');
+        }
     }
 
-    toastCloseBtn.addEventListener('click', hideToast);
+    if (toastCloseBtn) {
+        toastCloseBtn.addEventListener('click', hideToast);
+    }
 
     // Form Submit Handler
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
+    if (form && nameInput && emailInput && subjectInput && messageInput) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-        // Check all fields
-        const isNameValid = checkField(nameInput, 'name-error');
-        const isEmailValid = checkField(emailInput, 'email-error', (val) => validateEmail(val));
-        const isSubjectValid = checkField(subjectInput, 'subject-error');
-        const isMessageValid = checkField(messageInput, 'message-error');
+            // Check all fields
+            const isNameValid = checkField(nameInput, 'name-error');
+            const isEmailValid = checkField(emailInput, 'email-error', (val) => validateEmail(val));
+            const isSubjectValid = checkField(subjectInput, 'subject-error');
+            const isMessageValid = checkField(messageInput, 'message-error');
 
-        if (isNameValid && isEmailValid && isSubjectValid && isMessageValid) {
-            // Visual success indicator
-            const submitBtn = form.querySelector('.btn-submit');
-            const originalBtnHtml = submitBtn.innerHTML;
+            if (isNameValid && isEmailValid && isSubjectValid && isMessageValid) {
+                // Visual success indicator
+                const submitBtn = form.querySelector('.btn-submit');
+                if (submitBtn) {
+                    const originalBtnHtml = submitBtn.innerHTML;
 
-            submitBtn.innerHTML = 'Sending... <i class="fa-solid fa-circle-notch fa-spin"></i>';
-            submitBtn.disabled = true;
+                    submitBtn.innerHTML = 'Sending... <i class="fa-solid fa-circle-notch fa-spin"></i>';
+                    submitBtn.disabled = true;
 
-            // Simulate server network latency
-            setTimeout(() => {
-                showToast();
+                    // Simulate server network latency
+                    setTimeout(() => {
+                        showToast();
 
-                // Reset inputs and classes
-                form.reset();
-                const formGroups = form.querySelectorAll('.form-group');
-                formGroups.forEach(g => {
-                    g.classList.remove('success');
-                    g.classList.remove('error');
-                });
+                        // Reset inputs and classes
+                        form.reset();
+                        const formGroups = form.querySelectorAll('.form-group');
+                        formGroups.forEach(g => {
+                            g.classList.remove('success');
+                            g.classList.remove('error');
+                        });
 
-                submitBtn.innerHTML = originalBtnHtml;
-                submitBtn.disabled = false;
-            }, 1200);
-        }
-    });
+                        submitBtn.innerHTML = originalBtnHtml;
+                        submitBtn.disabled = false;
+                    }, 1200);
+                }
+            }
+        });
+    }
 });
