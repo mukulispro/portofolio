@@ -161,41 +161,65 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // PROJECTS CATEGORY FILTER
+    // PROJECTS CATEGORY FILTER & SEARCH
     // ==========================================================================
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
+    const searchInput = document.getElementById('project-search');
 
     if (filterButtons.length && projectCards.length) {
+        let activeFilter = 'all';
+        let searchQuery = '';
+
+        function updateProjectVisibility() {
+            projectCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                const title = card.querySelector('.project-title')?.textContent.toLowerCase() || '';
+                const text = card.querySelector('.project-text')?.textContent.toLowerCase() || '';
+                const tags = Array.from(card.querySelectorAll('.project-tags span')).map(t => t.textContent.toLowerCase());
+
+                const matchesFilter = activeFilter === 'all' || category === activeFilter;
+                const matchesSearch = !searchQuery || 
+                                      title.includes(searchQuery) || 
+                                      text.includes(searchQuery) || 
+                                      tags.some(tag => tag.includes(searchQuery));
+
+                const isVisible = matchesFilter && matchesSearch;
+
+                // Add minor exit scaling animation
+                card.style.transform = 'scale(0.9)';
+                card.style.opacity = '0';
+
+                setTimeout(() => {
+                    if (isVisible) {
+                        card.classList.remove('hide');
+                        setTimeout(() => {
+                            card.style.transform = 'scale(1)';
+                            card.style.opacity = '1';
+                        }, 50);
+                    } else {
+                        card.classList.add('hide');
+                    }
+                }, 200);
+            });
+        }
+
         filterButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 // Update active state on button
                 filterButtons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-
-                const filterValue = btn.getAttribute('data-filter');
-
-                projectCards.forEach(card => {
-                    const category = card.getAttribute('data-category');
-
-                    // Add minor exit scaling animation
-                    card.style.transform = 'scale(0.9)';
-                    card.style.opacity = '0';
-
-                    setTimeout(() => {
-                        if (filterValue === 'all' || category === filterValue) {
-                            card.classList.remove('hide');
-                            setTimeout(() => {
-                                card.style.transform = 'scale(1)';
-                                card.style.opacity = '1';
-                            }, 50);
-                        } else {
-                            card.classList.add('hide');
-                        }
-                    }, 200);
-                });
+                activeFilter = btn.getAttribute('data-filter') || 'all';
+                updateProjectVisibility();
             });
         });
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                updateProjectVisibility();
+            });
+        }
     }
 
     // ==========================================================================
