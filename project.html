@@ -3,63 +3,193 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>My Projects</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mukul Prasai | My Projects</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+        .projects-page-section {
+            padding: 140px 0 100px 0;
+            min-height: 85vh;
         }
 
-        h1 {
-            color: darkblue;
-        }
-
-        ul {
-            list-style-type: square;
-        }
-
-        /* Navbar styling */
-        nav {
-            background-color: #333;
-            padding: 10px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
+        .section-subtitle {
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
         }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="project.html">Projects</a>
-        <a href="contact.html">Contact</a>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="main-nav">
+        <div class="nav-container">
+            <a href="index.html#home" class="logo">
+                <span class="logo-symbol">&lt;</span> MUKUL <span class="logo-symbol">/&gt;</span>
+            </a>
+
+            <div class="nav-menu" id="nav-links">
+                <a href="index.html#home" class="nav-link">Home</a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <a href="project.html" class="nav-link active">Projects</a>
+                <a href="index.html#skills" class="nav-link">Skills</a>
+                <a href="index.html#experience" class="nav-link">Experience</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme">
+                    <i class="fa-regular fa-moon moon-icon"></i>
+                    <i class="fa-regular fa-sun sun-icon"></i>
+                </button>
+                <button id="mobile-toggle" class="mobile-menu-btn" title="Toggle Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
     </nav>
 
-    <h1>My Projects</h1>
-    <p>This page showcases some of my portfolio work.Hello World
+    <!-- Projects Grid Section -->
+    <section class="projects-page-section">
+        <div class="container">
+            <div class="section-header">
+                <h1 class="section-title">My Projects</h1>
+                <div class="section-line"></div>
+                <p class="section-subtitle">
+                    A list of my practice projects, coursework implementations, and key software engineering
+                    repositories.
+                </p>
+            </div>
 
-    </p>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-image-wrapper">
+                        <div class="project-image-gradient p1-grad"></div>
+                        <div class="project-links">
+                            <a href="https://github.com" target="_blank" class="project-link-icon" title="View Source">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category">Web App</span>
+                        <h3 class="project-title">Portfolio Website</h3>
+                        <p class="project-text">
+                            A premium, fully interactive personal portfolio website showcasing developer skills,
+                            projects, and custom layouts.
+                        </p>
+                        <div class="project-tags">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                        </div>
+                    </div>
+                </div>
 
-    <h2>Project List</h2>
-    <ul>
-        <li>Portfolio Website (HTML, CSS, JS)</li>
-        <li>Python Sorting Algorithms Practice</li>
-        <li>Java OOP Exercises</li>
-        <li>Networking Lab Setup</li>
-    </ul>
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-image-wrapper">
+                        <div class="project-image-gradient p2-grad"></div>
+                        <div class="project-links">
+                            <a href="https://github.com" target="_blank" class="project-link-icon" title="View Source">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category">Python</span>
+                        <h3 class="project-title">Python virtual environment and basic scripts</h3>
+                        <p class="project-text">
+                            Setting up and using Python virtual environments and creating basic Python scripts for
+                            automation and utilities.
+                        </p>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>CLI</span>
+                        </div>
+                    </div>
+                </div>
 
-    <footer>
-        <p>&copy; 2026 Mukul</p>
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-image-wrapper">
+                        <div class="project-image-gradient p3-grad"></div>
+                        <div class="project-links">
+                            <a href="https://github.com" target="_blank" class="project-link-icon" title="View Source">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category">Backend</span>
+                        <h3 class="project-title">Java OOP </h3>
+                        <p class="project-text">
+                            A repository focusing on object-oriented programming paradigms, custom structures, and
+                            architectural design patterns.
+                        </p>
+                        <div class="project-tags">
+                            <span>Java</span>
+                            <span>OOP</span>
+                            <span>Design Patterns</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-image-wrapper">
+                        <div class="project-image-gradient p4-grad"></div>
+                        <div class="project-links">
+                            <a href="https://github.com" target="_blank" class="project-link-icon" title="View Source">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category">Infrastructure</span>
+                        <h3 class="project-title">Basic linux user permission using ubuntu server</h3>
+                        <p class="project-text">
+                            Setting up and using Linux user accounts, permissions, and basic file management on an
+                            Ubuntu server.
+
+                        </p>
+                        <div class="project-tags">
+                            <span>Ubuntu</span>
+                            <span>Linux</span>
+                            <span>CLI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <span class="copyright">© 2026 Mukul Prasai. All rights reserved.</span>
+            <div class="footer-links">
+                <a href="index.html#home">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="project.html">Projects</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+        </div>
     </footer>
+
+    <!-- Deferred JS File -->
+    <script src="script.js" defer></script>
 </body>
 
 </html>
