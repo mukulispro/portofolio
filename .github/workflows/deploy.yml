@@ -2,7 +2,10 @@ name: Deploy Portfolio
 
 on:
   push:
-    branches: [ "actions" ]
+    branches: [ main, actions ]   # runs on both main and actions branches
+
+permissions:
+  contents: write   # allow pushing to gh-pages
 
 jobs:
   build-and-deploy:
